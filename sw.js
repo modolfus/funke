@@ -1,5 +1,5 @@
-// Offline-Cache. Bei jeder Änderung an der App VERSION erhöhen, damit das iPhone die neue Version lädt.
-const VERSION = 'funke-v3';
+// Offline cache. Bump VERSION on every app change so installed apps pick up the new version.
+const VERSION = 'funke-v4';
 const FILES = [
   './', 'index.html', 'styles.css', 'app.js', 'lessons.js', 'lessons.en.js', 'manifest.webmanifest',
   'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png'
@@ -17,7 +17,7 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Netzwerk zuerst (damit Updates sofort ankommen), offline aus dem Cache.
+// Network first (so updates arrive immediately), cache when offline.
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(

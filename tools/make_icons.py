@@ -1,5 +1,5 @@
-"""Erzeugt die App-Icons (PNG) ohne externe Bibliotheken.
-Aufruf: python3 tools/make_icons.py
+"""Generates the app icons (PNG) without external libraries.
+Usage: python3 tools/make_icons.py
 """
 import os
 import struct
@@ -7,7 +7,7 @@ import zlib
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "icons")
 
-# Blitz-Polygon in 0..1-Koordinaten
+# Lightning bolt polygon in 0..1 coordinates
 BOLT = [(0.58, 0.10), (0.26, 0.56), (0.47, 0.56), (0.40, 0.90), (0.74, 0.42), (0.53, 0.42), (0.62, 0.10)]
 
 
@@ -46,7 +46,7 @@ def render(size, pad=0.0):
                         hits += 1
             a = hits / (ss * ss)
             bc = lerp(bolt_hi, bolt_lo, y / size)
-            # leichter Glow um den Blitz
+            # blend bolt colour over background
             col = lerp(bg, bc, a)
             row += bytes(col)
         rows.append(bytes(row))

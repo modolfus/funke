@@ -1,34 +1,44 @@
-# Funke ⚡ – Elektronik lernen
+# Funke ⚡ – Learn electronics
 
-Eigene Lern-App im Duolingo-Stil für Elektronik, Mikrocontroller und Robotik.
-Reine Web-App (PWA): kein Build, keine Abhängigkeiten, läuft offline und vom iPhone-Homescreen im Vollbild.
+A free, Duolingo-style learning app for electronics, microcontrollers and robotics.
+It's a plain web app (PWA): no build step, no dependencies, works offline and runs full-screen from the iPhone home screen.
 
-## Inhalt
-- 7 Kapitel, 20 Lektionen + 7 Kapitel-Tests, 164 Karten (Strom-Grundlagen → Bauteile → Schaltungen → Halbleiter → Logik → Arduino → Robotik)
-- Kapitel-Tests: 10 Fragen (5 eigene + 5 zufällige aus dem Kapitel), bestanden ab 8 richtig, kein zweiter Versuch
-- Deutsch & Englisch (Profil → Sprache). Englische Inhalte: `lessons.en.js` – gleiche Struktur, IDs und Lösungen wie `lessons.js`
-- Design im Steam-Stil (grau, flach, Motiva Sans/Arial)
-- Übungstypen: Auswahl, Stimmt/Stimmt nicht, Rechnen, Code-Lücken, Paare, Reihenfolge, Farbring-Picker, interaktive Schalter/Logikgatter/H-Brücke, Regler-Simulationen (LED-Vorwiderstand, Spannungsteiler, PWM, PID)
-- XP, Tagesserie, Tagesziel, Akku (Leben) mit Aufladen, Fehler-Training, Werkzeuge (Ohm-Rechner, LED-Vorwiderstand, Farbcode)
-- Fortschritt bleibt lokal auf dem Gerät; Backup-Code im Profil
+**Live:** https://modolfus.github.io/funke/
 
-## Lokal testen
+## Features
+- 7 chapters, 20 lessons + 7 chapter tests, 164 cards: electricity basics → components → circuits → semiconductors → digital logic → Arduino → robotics
+- Exercise types: multiple choice, true/false, calculations, code gaps, matching pairs, ordering, resistor color-band picker, interactive switches / logic gates / H-bridge, simulations with a slider (LED resistor, voltage divider, PWM, PID tuning)
+- Chapter tests: 10 questions (5 test-only + 5 random from the chapter), pass with 8 correct, no second tries
+- XP, daily streak, daily goal, battery "lives" that recharge, mistake review, tools (Ohm's law, LED resistor, color code)
+- German & English (Profile → Language); defaults to the device language
+- Steam-inspired look (grey, flat, Motiva Sans / Arial)
+- Progress is stored locally on the device; backup code in Profile
+
+## Install on iPhone
+1. Open https://modolfus.github.io/funke/ in **Safari**.
+2. Tap **Share** → **Add to Home Screen**.
+
+## Run locally
 ```bash
 python3 -m http.server 8765
 ```
-→ http://localhost:8765
+Then open http://localhost:8765
 
-## Aufs iPhone (kostenlos, dauerhaft): GitHub Pages
-1. Kostenlosen Account auf github.com anlegen, neues **öffentliches** Repository `funke` erstellen.
-2. Diesen Ordner hochladen (per „Add file → Upload files“ oder `git push`).
-3. Repository → Settings → Pages → Source: „Deploy from a branch“, Branch `main`, Ordner `/ (root)` → Save.
-4. Nach ~1 Minute läuft die App unter `https://<name>.github.io/funke/`.
-5. Auf dem iPhone in **Safari** öffnen → Teilen → **Zum Home-Bildschirm**.
+## Project structure
+| File | Purpose |
+|---|---|
+| `index.html` | App shell, PWA meta tags |
+| `app.js` | Engine: learning path, exercise types, XP/streak/battery, practice, tools, profile, UI strings (DE/EN) |
+| `lessons.js` | German content (format documented at the top of the file) |
+| `lessons.en.js` | English content – same ids, structure and answers as `lessons.js` |
+| `styles.css` | Styling |
+| `sw.js` | Service worker for offline use |
+| `manifest.webmanifest` | PWA manifest |
+| `tools/make_icons.py` | Generates the app icons: `python3 tools/make_icons.py` |
 
-## Updates
-Nach Änderungen in `sw.js` die `VERSION` hochzählen (z. B. `funke-v2`) und neu hochladen.
-Die App holt sich die neue Version beim nächsten Öffnen mit Internet.
+## Updating
+After changing anything, bump `VERSION` in `sw.js` (e.g. `funke-v4`) and push.
+Installed apps pick up the new version the next time they are opened with internet access.
 
-## Eigene Lektionen
-Alle Inhalte stehen in `lessons.js` (Format oben in der Datei beschrieben).
-Icons neu erzeugen: `python3 tools/make_icons.py`
+## Adding lessons
+Add a lesson to the matching chapter in **both** `lessons.js` and `lessons.en.js`, using the same `id` and the same exercise order and answers.

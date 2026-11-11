@@ -1,17 +1,17 @@
 /* =========================================================
-   Lerninhalte für Funke.
-   Übungstypen:
-     info   – Lernkarte            {title, text, fig?, tip?}
-     mc     – Auswahl              {q, o:[..], a:index, fig?, ex?}
-     tf     – Stimmt/Stimmt nicht  {q, a:true|false, fig?, ex?}
-     num    – Zahl eingeben        {q, a, unit, tol?, fig?, ex?}
-     fill   – Code-Lücke (___)     {q, code, o:[..], a:index, ex?}
-     match  – Paare finden         {q, pairs:[[links, rechts], ..]}
-     order  – Reihenfolge          {q, items:[in richtiger Reihenfolge], ex?}
-     color  – Farbringe einstellen {q, v:Ohm}
-     logic  – Schalter/Gatter      {q, draw:'series'|'parallel'|'AND'|'OR'|'XOR'|'NOT'|'NAND'|'NOR'|'hb', goal, init?, fix?, goalText?, sol?}
-     slider – Regler               {q, vis:'led'|'pwm'|'div'|'pid', min, max, step, init, ok?:[lo,hi], sol?}
-   Abbildungen (fig): 'ohm' | {k:'loop',parts,U} | {k:'par',vals,U} | {k:'div',..} | {k:'sym',s} | {k:'res',b:[d1,d2,mult]} | {k:'pwm',d} | {k:'gate',g,in,hide}
+   German content for Funke (English: lessons.en.js – same ids, structure and answers).
+   Exercise types:
+     info   – concept card         {title, text, fig?, tip?}
+     mc     – multiple choice      {q, o:[..], a:index, fig?, ex?}
+     tf     – true / false         {q, a:true|false, fig?, ex?}
+     num    – enter a number       {q, a, unit, tol?, fig?, ex?}
+     fill   – code gap (___)       {q, code, o:[..], a:index, ex?}
+     match  – find pairs           {q, pairs:[[left, right], ..]}
+     order  – put in order         {q, items:[in correct order], ex?}
+     color  – set resistor bands   {q, v:ohms}
+     logic  – switches / gates     {q, draw:'series'|'parallel'|'AND'|'OR'|'XOR'|'NOT'|'NAND'|'NOR'|'hb', goal, init?, fix?, goalText?, sol?}
+     slider – knob / slider        {q, vis:'led'|'pwm'|'div'|'pid', min, max, step, init, ok?:[lo,hi], sol?}
+   Figures (fig): 'ohm' | {k:'loop',parts,U} | {k:'par',vals,U} | {k:'div',..} | {k:'sym',s} | {k:'res',b:[d1,d2,mult]} | {k:'pwm',d} | {k:'gate',g,in,hide}
    ========================================================= */
 const UNITS = [
   {
@@ -261,54 +261,54 @@ const UNITS = [
 ];
 
 /* =========================================================
-   Kapitel-Tests: eigene Testfragen je Kapitel (gleiche Reihenfolge wie UNITS).
-   Ein Test = diese Fragen + zufällige Aufgaben aus den Lektionen, insgesamt 10.
-   Bestanden ab 8 richtig, kein zweiter Versuch.
+   Chapter tests: own questions per chapter (same order as UNITS).
+   A test = these questions + random lesson exercises, 10 in total.
+   Pass with 8 correct, no second tries.
    ========================================================= */
 const QUIZZES = [
-  [ // Strom verstehen
+  [ // Understanding electricity
     { t: 'num', q: '3 V liegen an 150 Ω. Wie viel Strom fließt?', a: 20, unit: 'mA', ex: 'I = 3 V / 150 Ω = 0,02 A = 20 mA' },
     { t: 'mc', q: 'Du verdoppelst den Widerstand, die Spannung bleibt gleich. Was passiert mit dem Strom?', o: ['Er halbiert sich', 'Er verdoppelt sich', 'Er bleibt gleich', 'Er wird null'], a: 0, ex: 'I = U / R – doppeltes R, halber Strom.' },
     { t: 'num', q: 'Wie viele Milliampere sind 0,35 A?', a: 350, unit: 'mA', ex: '0,35 · 1000 = 350 mA' },
     { t: 'tf', q: 'Durch einen offenen Stromkreis fließt trotzdem ein kleiner Strom.', a: false, ex: 'Offen heißt unterbrochen – es fließt gar nichts.' },
     { t: 'num', q: 'Durch einen 1-kΩ-Widerstand fließen 9 mA. Welche Spannung liegt an?', a: 9, unit: 'V', ex: 'U = 1000 Ω · 0,009 A = 9 V' },
   ],
-  [ // Bauteile
+  [ // Components
     { t: 'color', q: 'Stell **470 Ω** ein.', v: 470 },
     { t: 'mc', q: 'Welchen Wert hat dieser Widerstand?', fig: { k: 'res', b: [1, 5, 3] }, o: ['15 kΩ', '1,5 kΩ', '150 kΩ', '153 Ω'], a: 0, ex: 'braun (1) · grün (5) · orange (3 Nullen) = 15 000 Ω' },
     { t: 'num', q: '9-V-Block, blaue LED (3 V), gewünscht 20 mA. Welcher Vorwiderstand?', a: 300, unit: 'Ω', ex: '(9 − 3) V / 0,02 A = 300 Ω' },
     { t: 'mc', q: 'Woran erkennst du die **Kathode** (−) einer LED?', o: ['Kürzeres Bein, abgeflachte Seite', 'Längeres Bein', 'Rote Farbe', 'Gar nicht'], a: 0 },
     { t: 'mc', q: '100 µF sind …', o: ['0,0001 F', '0,1 F', '0,001 F', '100 F'], a: 0, ex: 'Mikro = Millionstel: 100 / 1 000 000 = 0,0001 F' },
   ],
-  [ // Schaltungen
+  [ // Circuits
     { t: 'num', q: 'Drei 330-Ω-Widerstände in Reihe. Gesamtwiderstand?', a: 990, unit: 'Ω', ex: '3 · 330 = 990 Ω' },
     { t: 'num', q: '200 Ω parallel zu 200 Ω. Gesamtwiderstand?', a: 100, unit: 'Ω', ex: 'Zwei gleiche parallel = die Hälfte.' },
     { t: 'slider', q: 'Stell R2 so ein, dass **6 V** rauskommen.', vis: 'div', min: 0.5, max: 30, step: 0.5, init: 2, ok: [5.8, 6.2], R1: 10, Uin: 9, sol: 'R2 ≈ 20 kΩ' },
     { t: 'num', q: '9 V und 0,5 A – welche Leistung?', a: 4.5, unit: 'W', ex: 'P = 9 V · 0,5 A = 4,5 W' },
     { t: 'mc', q: 'Du schaltest einen weiteren Widerstand **parallel** dazu. Der Gesamtwiderstand …', o: ['wird kleiner', 'wird größer', 'bleibt gleich'], a: 0, ex: 'Ein zusätzlicher Weg – der Strom kommt leichter durch.' },
   ],
-  [ // Halbleiter
+  [ // Semiconductors
     { t: 'mc', q: 'Welches Bauteil ist das?', fig: { k: 'sym', s: 'mosfet' }, o: ['MOSFET', 'NPN-Transistor', 'Diode', 'Kondensator'], a: 0 },
     { t: 'tf', q: 'Ein Arduino-Pin kann einen 500-mA-Motor direkt antreiben.', a: false, ex: 'Ein Pin schafft nur ca. 20 mA – dafür braucht man einen Transistor oder MOSFET.' },
     { t: 'mc', q: 'Wie wird die Freilaufdiode angeschlossen?', o: ['Parallel zum Motor, in Sperrrichtung', 'In Reihe vor den Motor', 'Zwischen Gate und Source', 'Direkt an den Arduino-Pin'], a: 0 },
     { t: 'match', q: 'Bauteil → Steueranschluss', pairs: [['NPN-Transistor', 'Basis'], ['MOSFET', 'Gate'], ['Relais', 'Spule']] },
     { t: 'mc', q: 'Ein voll durchgeschalteter Transistor wirkt wie …', o: ['ein geschlossener Schalter', 'ein offener Schalter', 'ein Kondensator', 'eine Batterie'], a: 0 },
   ],
-  [ // Digitale Logik
+  [ // Digital logic
     { t: 'num', q: 'Welche Dezimalzahl ist **11001**?', a: 25, unit: '', tol: 0, ex: '16 + 8 + 0 + 0 + 1 = 25' },
     { t: 'logic', q: 'Ein **NOR**-Gatter (ODER mit umgedrehtem Ausgang).', draw: 'NOR', init: [1, 0], goal: true, goalText: 'Bring die LED zum Leuchten', ex: 'NOR ist nur 1, wenn beide Eingänge 0 sind.' },
     { t: 'mc', q: 'Was kommt hier raus?', fig: { k: 'gate', g: 'XOR', in: [1, 1], hide: true }, o: ['0', '1'], a: 0, ex: 'XOR: gleiche Eingänge → 0' },
     { t: 'mc', q: 'Wie schreibt man **7** binär?', o: ['111', '110', '101', '1110'], a: 0, ex: '4 + 2 + 1 = 7' },
     { t: 'tf', q: 'NICHT angewendet auf 1 ergibt 0.', a: true },
   ],
-  [ // Mikrocontroller
+  [ // Microcontrollers
     { t: 'fill', q: 'Lies den Taster an Pin 2 ein.', code: 'int taster = ___(2);', o: ['digitalRead', 'analogRead', 'digitalWrite'], a: 0 },
     { t: 'fill', q: 'Warte eine halbe Sekunde.', code: 'delay(___);', o: ['500', '0.5', '50'], a: 0, ex: 'delay rechnet in Millisekunden.' },
     { t: 'mc', q: '`analogRead(A0)` liefert 1023. Welche Spannung liegt an?', o: ['5 V', '0 V', '2,5 V', '1023 V'], a: 0 },
     { t: 'num', q: 'Welcher `analogWrite`-Wert entspricht ungefähr **75 %**?', a: 191, unit: '', tol: 0.03, ex: '0,75 · 255 ≈ 191' },
     { t: 'order', q: 'So läuft ein Arduino-Programm ab:', items: ['Strom an oder Reset', 'setup() läuft einmal', 'loop() läuft', 'loop() läuft wieder und wieder'] },
   ],
-  [ // Robotik
+  [ // Robotics
     { t: 'logic', q: 'Jemand hat S1 und S2 gleichzeitig geschlossen!', draw: 'hb', init: [1, 1, 0, 0], goal: 'stop', goalText: 'Beende den Kurzschluss – der Motor soll stillstehen', sol: 'S1 oder S2 öffnen, ohne S3/S4 passend dazu zu schließen' },
     { t: 'num', q: 'Das Echo kommt nach **580 µs** zurück (0,0343 cm/µs). Wie weit ist das Hindernis?', a: 9.9, unit: 'cm', tol: 0.03, ex: '580 · 0,0343 / 2 ≈ 9,9 cm' },
     { t: 'mc', q: 'Welcher Motor fährt präzise auf **90°**?', o: ['Servo', 'DC-Motor', 'Lüftermotor', 'Vibrationsmotor'], a: 0 },

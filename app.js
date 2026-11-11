@@ -1,7 +1,7 @@
 'use strict';
 /* =========================================================
-   Funke – Lern-App für Elektronik, Mikrocontroller & Robotik
-   Reines HTML/CSS/JS, keine Abhängigkeiten. Inhalte: lessons.js
+   Funke – learning app for electronics, microcontrollers & robotics
+   Plain HTML/CSS/JS, no dependencies. Content: lessons.js (DE), lessons.en.js (EN)
    ========================================================= */
 
 const app = document.getElementById('app');
@@ -42,7 +42,7 @@ function batt(n) {
   return `<svg viewBox="0 0 28 24"><rect x="2" y="6" width="20" height="12" rx="3" fill="none" stroke="${c}" stroke-width="2.2"/><rect x="22.5" y="10" width="3" height="4" rx="1" fill="${c}"/>${n > 0 ? `<rect x="4.5" y="8.5" width="${15 * n / 5}" height="7" rx="1.5" fill="${c}"/>` : ''}</svg>`;
 }
 
-/* ---------------- Zustand ---------------- */
+/* ---------------- State ---------------- */
 const KEY = 'funke-state';
 const MAXE = 5, REGEN = 30 * 60 * 1000;
 const DEF = { xp: 0, done: {}, energy: MAXE, energyAt: Date.now(), streak: 0, lastDay: null, days: {}, goal: 20,
@@ -50,7 +50,7 @@ const DEF = { xp: 0, done: {}, energy: MAXE, energyAt: Date.now(), streak: 0, la
   lang: (navigator.language || 'de').toLowerCase().startsWith('de') ? 'de' : 'en' };
 let S = load();
 
-/* ---------------- Sprache (DE / EN) ---------------- */
+/* ---------------- Language (DE / EN) ---------------- */
 const LANG = S.lang === 'en' ? 'en' : 'de';
 document.documentElement.lang = LANG;
 const STR = {
@@ -168,7 +168,7 @@ function tickEnergy() {
 function useEnergy() { if (S.unlimited) return; tickEnergy(); if (S.energy >= MAXE) S.energyAt = Date.now(); S.energy = Math.max(0, S.energy - 1); }
 const minsToNext = () => Math.max(1, Math.ceil((REGEN - (Date.now() - S.energyAt)) / 60000));
 
-/* Lektionen flach + Index */
+/* Flat lesson list + index */
 const ALL = [];
 const QUIZ_N = 10, PASS = 0.8;
 CONTENT.forEach((u, ui) => {
@@ -182,7 +182,7 @@ function resolve(ref) { const [l, i] = ref.split(':'); const les = BYID[l]; cons
 function addMistake(ref) { if (!S.mistakes.includes(ref)) S.mistakes.push(ref); }
 function dropMistake(ref) { S.mistakes = S.mistakes.filter(r => r !== ref); }
 
-/* ---------------- Feedback: Ton & Haptik ---------------- */
+/* ---------------- Feedback: sound & haptics ---------------- */
 let ac = null;
 function tone(f, t, dur, type = 'sine', vol = .14) {
   const o = ac.createOscillator(), g = ac.createGain();
@@ -212,7 +212,7 @@ function buzz(n = 1) {
 function toast(t) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2000); }
 
 /* =========================================================
-   Schaltplan-Zeichnungen (SVG)
+   Schematic drawings (SVG)
    ========================================================= */
 const BGF = 'style="fill:var(--bg2)"';
 const W = live => `class="wire${live ? ' live' : ''}"`;
@@ -284,7 +284,7 @@ function symFig(k) {
   const draw = P[k]; if (!draw) return '';
   return `<svg viewBox="0 0 120 70"><path class="wire" d="M10 38H110"/>${draw(60, 38, { on: k === 'led' || k === 'lamp' ? 0 : 0 })}</svg>`;
 }
-function resSvg(bands) { // bands: [d1,d2,mult] als Index oder null
+function resSvg(bands) { // bands: [d1,d2,mult] as color index or null
   const col = i => i == null ? '#cbb27e' : RES_COLS[i][1];
   return `<svg viewBox="0 0 300 110"><path d="M10 55H290" stroke="#b9bfd9" stroke-width="5" stroke-linecap="round"/>` +
     `<path d="M70 30q-10 0-10 25t10 25h12q8 0 14-6h108q6 6 14 6h12q10 0 10-25t-10-25h-12q-8 0-14 6H96q-6-6-14-6z" fill="#d8c08a"/>` +
@@ -359,7 +359,7 @@ const FIGS = {
 };
 function fig(spec) { if (!spec) return ''; const s = typeof spec === 'string' ? { k: spec } : spec; const f = FIGS[s.k]; return f ? `<div class="figure">${f(s)}</div>` : ''; }
 
-/* Slider-Visualisierungen */
+/* Slider visualisations */
 const VIS = {
   led(R, ex) {
     const U = ex.U || 5, Uf = ex.Uf || 2, I = (U - Uf) / R * 1000, burnt = I > (ex.max || 35);
@@ -387,7 +387,7 @@ const VIS = {
 };
 
 /* =========================================================
-   Übungstypen
+   Exercise types
    ========================================================= */
 const KIND = t('kind');
 const PRAISE = t('praise');
@@ -532,13 +532,13 @@ R.slider = (ex, b, c) => {
 };
 
 /* =========================================================
-   Lektions-Ablauf
+   Lesson flow
    ========================================================= */
 let L = null;
 const pct = () => Math.min(100, L.solved / L.total * 100);
 
 function startLesson(les) {
-  if (les.quiz) { // Kapitel-Test: eigene Testfragen + zufällige Aufgaben aus dem Kapitel, kein zweiter Versuch, kein Akku
+  if (les.quiz) { // Chapter test: own questions + random chapter exercises, no second tries, no battery cost
     const own = les.ex.map((ex, i) => ({ ex, ref: refOf(les.id, i) })), pool = [];
     les.unit.lessons.filter(l => !l.quiz).forEach(l => l.ex.forEach((ex, i) => { if (ex.t !== 'info') pool.push({ ex, ref: refOf(l.id, i) }); }));
     const queue = shuffle([...own, ...shuffle(pool).slice(0, Math.max(0, QUIZ_N - own.length))]);
@@ -681,7 +681,7 @@ function outOfEnergy() {
 }
 
 /* =========================================================
-   Hauptbildschirme
+   Main screens
    ========================================================= */
 let tab = 'learn';
 function home() {
@@ -816,7 +816,7 @@ function confirmBox(title, text, yes, onYes) {
   document.body.append(bg, p);
 }
 
-/* ---------------- Aktionen ---------------- */
+/* ---------------- Actions ---------------- */
 const ACT = {
   tab: b => { tab = b.dataset.t; sfx('tap'); home(); },
   home: () => { tab = 'learn'; home(); },

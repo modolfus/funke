@@ -3,7 +3,7 @@
 A free, Duolingo-style learning app for electronics, microcontrollers and robotics.
 It's a plain web app (PWA): no build step, no dependencies, works offline and runs full-screen from the iPhone home screen.
 
-**Live:** https://modolfus.github.io/funke/
+**Live:** https://funke.maurice-hmnn.workers.dev/ (Cloudflare, deployed automatically on every push to `main`)
 
 ## Features
 - 7 chapters, 20 lessons + 7 chapter tests, 164 cards: electricity basics → components → circuits → semiconductors → digital logic → Arduino → robotics
@@ -15,7 +15,7 @@ It's a plain web app (PWA): no build step, no dependencies, works offline and ru
 - Progress is stored locally on the device; backup code in Profile
 
 ## Install on iPhone
-1. Open https://modolfus.github.io/funke/ in **Safari**.
+1. Open https://funke.maurice-hmnn.workers.dev/ in **Safari**.
 2. Tap **Share** → **Add to Home Screen**.
 
 ## Run locally

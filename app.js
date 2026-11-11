@@ -173,7 +173,7 @@ const ALL = [];
 const QUIZ_N = 10, PASS = 0.8;
 CONTENT.forEach((u, ui) => {
   u.n = ui + 1;
-  if (u.quiz && !u.lessons.some(l => l.quiz)) u.lessons.push({ id: `u${ui + 1}q`, title: t('quizTitle', u.title), quiz: true, ex: u.quiz });
+  if (u.quiz && !u.lessons.some(l => l.quiz)) u.lessons.push({ id: `${u.id || 'u' + (ui + 1)}q`, title: t('quizTitle', u.title), quiz: true, ex: u.quiz });
   u.lessons.forEach((l, li) => { l.unit = u; l.li = li; ALL.push(l); }); });
 const BYID = Object.fromEntries(ALL.map(l => [l.id, l]));
 const curIdx = () => { const i = ALL.findIndex(l => !S.done[l.id]); return i; };
@@ -234,7 +234,8 @@ const P = {
   diode: (x, y) => `<rect x="${x - 12}" y="${y - 13}" width="24" height="26" ${BGF}/><path class="sym" ${BGF} d="M${x - 9} ${y - 11}V${y + 11}L${x + 8} ${y}Z"/><path class="sym" d="M${x + 8} ${y - 11}V${y + 11}"/>`,
   cap: (x, y) => `<rect x="${x - 6}" y="${y - 16}" width="12" height="32" ${BGF}/><path class="sym" d="M${x - 5} ${y - 15}v30M${x + 5} ${y - 15}v30"/>`,
   sw: (x, y, o = {}) => `<rect x="${x - 16}" y="${y - 22}" width="32" height="26" ${BGF}/><path class="sym" d="M${x - 18} ${y}${o.closed ? `L${x + 18} ${y}` : `L${x + 13} ${y - 17}`}"/><circle cx="${x - 18}" cy="${y}" r="3.5" fill="#dcdedf"/><circle cx="${x + 18}" cy="${y}" r="3.5" fill="#dcdedf"/>`,
-  motor: (x, y) => `<circle class="sym" ${BGF} cx="${x}" cy="${y}" r="16"/><text x="${x}" y="${y + 6}" text-anchor="middle" class="lbl" style="font-size:17px">M</text>`,
+  meter: (x, y, o = {}) => `<circle class="sym" ${BGF} cx="${x}" cy="${y}" r="15"/><text x="${x}" y="${y + 6}" text-anchor="middle" class="lbl" style="font-size:16px;fill:#66c0f4">${o.l || 'V'}</text>`,
+  motor: (x, y) =>`<circle class="sym" ${BGF} cx="${x}" cy="${y}" r="16"/><text x="${x}" y="${y + 6}" text-anchor="middle" class="lbl" style="font-size:17px">M</text>`,
   bat: (x, y) => `<rect x="${x - 8}" y="${y - 18}" width="16" height="36" ${BGF}/><path class="sym" d="M${x - 5} ${y - 17}v34"/><path class="sym" style="stroke-width:6" d="M${x + 5} ${y - 9}v18"/>`,
 };
 const rot = (x, y, inner) => `<g transform="rotate(90 ${x} ${y})">${inner}</g>`;

@@ -298,3 +298,116 @@ const QUIZZES_EN = [
   ],
 ];
 UNITS_EN.forEach((u, i) => { u.quiz = QUIZZES_EN[i]; });
+
+/* Additional chapters – same ids, structure and answers as in lessons.js. */
+(() => {
+  const WORKSHOP = {
+    id: 'w', title: 'Workshop', sub: 'Multimeter & soldering', color: '#e0a458', dark: '#9a6a2c',
+    lessons: [
+      {
+        id: 'w1l1', title: 'Measuring with a multimeter', ex: [
+          { t: 'info', title: 'Your most important tool', text: 'A **multimeter** measures voltage, current and resistance.\n\n**V⎓** DC voltage (battery, Arduino) · **V~** AC voltage (mains – hands off!) · **A** current · **Ω** resistance · **🔊** continuity (beeps when connected).\n\nYou measure **voltage in parallel** with the component. You measure **current in series** – break the circuit open and plug the red lead into the **A/mA jack**.', fig: { k: 'loop', parts: [{ k: 'meter', l: 'A', lab: 'Meter' }, { k: 'lamp', on: 1, side: 'r', lab: 'Lamp' }], U: '9 V', live: true }, tip: 'Only measure resistance and continuity with the circuit powered off.' },
+          { t: 'mc', q: 'You want to measure the voltage of a 9 V battery. Which setting?', o: ['V⎓ (DC voltage)', 'V~ (AC voltage)', 'A (current)', 'Ω (resistance)'], a: 0, ex: 'Batteries supply DC voltage.' },
+          { t: 'mc', q: 'How do you connect the multimeter to measure **current**?', o: ['In series – break the circuit', 'In parallel with the component', 'Directly across the battery', 'That’s not possible'], a: 0, ex: 'The current has to flow through the meter. In A mode directly across a battery = short circuit!' },
+          { t: 'tf', q: 'You can measure resistors while the circuit is powered.', a: false, ex: 'External voltage falsifies the reading and can damage the meter.' },
+          { t: 'match', q: 'Symbol → measurement', pairs: [['V⎓', 'DC voltage'], ['V~', 'AC voltage'], ['Ω', 'Resistance'], ['🔊', 'Continuity']] },
+          { t: 'num', q: 'You measure 3 V across the 150 Ω series resistor. How much current flows through the LED?', a: 20, unit: 'mA', ex: 'I = 3 V / 150 Ω = 0.02 A = 20 mA – without breaking the circuit!' },
+          { t: 'mc', q: 'What is the continuity tester (beeper) for?', o: ['Checking whether a wire or solder joint connects', 'Charging batteries', 'Raising voltage', 'Measuring current'], a: 0 },
+        ]
+      },
+      {
+        id: 'w1l2', title: 'Soldering', ex: [
+          { t: 'info', title: 'Joining parts for good', text: 'When **soldering**, molten solder connects a component to the board – electrically and mechanically.\n\n1. Touch the tip to the **pad and the leg at the same time** (heat 1–2 s)\n2. Feed **solder to the joint**, not to the tip\n3. Remove the solder, then the iron\n4. Don’t move it until it has set\n\nA good joint is shiny and looks like a small **cone**.', tip: '330–360 °C is typical for lead-free solder. Ventilate and wash your hands afterwards!' },
+          { t: 'order', q: 'Put the steps of a solder joint in the right order.', items: ['Heat pad and leg with the tip', 'Feed solder', 'Remove solder', 'Remove the iron'] },
+          { t: 'mc', q: 'Where do you feed the solder?', o: ['To the pad and component leg', 'Only onto the iron tip', 'Onto the back of the board', 'Doesn’t matter'], a: 0, ex: 'The joint must be hot enough for the solder to flow and bond well.' },
+          { t: 'mc', q: 'A joint is dull, grainy and ball-shaped. What is it?', o: ['A cold joint', 'A perfect joint', 'A short circuit', 'Flux'], a: 0, ex: 'Not enough heat – reheat it, maybe add a little fresh solder.' },
+          { t: 'match', q: 'Tool → purpose', pairs: [['Desoldering braid', 'Soak up solder'], ['Flux', 'Solder flows better'], ['Flush cutters', 'Trim legs'], ['Helping hands', 'Hold the board']] },
+          { t: 'num', q: 'Roughly what temperature is used for lead-free solder?', a: 340, unit: '°C', tol: 0.08, ex: 'About 330–360 °C is common.' },
+          { t: 'tf', q: 'Two neighbouring pads accidentally joined with solder can cause a short circuit.', a: true, ex: 'Remove such a “solder bridge” with desoldering braid.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'Which multimeter setting tells you whether a wire is broken?', o: ['Continuity 🔊', 'V~', 'A', 'V⎓'], a: 0 },
+      { t: 'tf', q: 'For current measurements the red lead goes into the A or mA jack.', a: true },
+      { t: 'mc', q: 'You measure in A mode directly across a battery’s terminals. What happens?', o: ['Short circuit through the meter – the fuse blows', 'You see the voltage', 'Nothing', 'The battery charges'], a: 0 },
+      { t: 'mc', q: 'How do you recognise a good solder joint?', o: ['Shiny and cone-shaped', 'Dull and ball-shaped', 'Burnt black', 'As much solder as possible'], a: 0 },
+      { t: 'num', q: 'You measure 5 V across a 1 kΩ resistor. What current flows?', a: 5, unit: 'mA', ex: '5 V / 1000 Ω = 5 mA' },
+    ]
+  };
+
+  const SENSORS = {
+    id: 's', title: 'Sensors', sub: 'Analog, digital, I²C', color: '#7aa2ff', dark: '#4363c4',
+    lessons: [
+      {
+        id: 's1l1', title: 'Analog sensors', ex: [
+          { t: 'info', title: 'When a resistance changes', text: 'Many sensors are simply **variable resistors**: an **LDR** drops with light, an **NTC** drops with heat, a **potentiometer** changes as you turn it.\n\nIn a **voltage divider** with a fixed resistor this becomes a voltage that `analogRead()` measures (0–1023).\n\nWith `map(value, 0, 1023, 0, 100)` you convert the reading, e.g. into percent.', fig: { k: 'div', R1: '10 kΩ', R2: 'LDR', Uin: '5 V', Uout: '?' } },
+          { t: 'match', q: 'Sensor → reacts to', pairs: [['LDR', 'Light'], ['NTC', 'Temperature'], ['Potentiometer', 'Turning'], ['Microphone', 'Sound']] },
+          { t: 'tf', q: 'An LDR has a higher resistance in the dark than in bright light.', a: true, ex: 'Dark = high resistance (often several 100 kΩ), bright = low (a few kΩ).' },
+          { t: 'num', q: 'Roughly what does `map(512, 0, 1023, 0, 100)` return?', a: 50, unit: '', tol: 0.03, ex: '512 is about half of 1023 → about 50.' },
+          { t: 'num', q: 'An LM35 outputs 10 mV per °C. You measure 0.25 V. How warm is it?', a: 25, unit: '°C', ex: '0.25 V = 250 mV → 250 / 10 = 25 °C' },
+          { t: 'fill', q: 'Read the light sensor on A0.', code: 'int light = ___(A0);', o: ['analogRead', 'digitalRead', 'analogWrite'], a: 0 },
+          { t: 'mc', q: 'Why does an LDR need a second, fixed resistor?', o: ['To form a voltage divider the Arduino can measure', 'So it shines brighter', 'As a fuse', 'It doesn’t'], a: 0 },
+        ]
+      },
+      {
+        id: 's1l2', title: 'Digital sensors & I²C', ex: [
+          { t: 'info', title: 'Sensors that do the maths', text: '**Digital sensors** deliver finished values: a **PIR motion sensor** outputs HIGH on movement, a **DHT22** delivers temperature and humidity.\n\nMany modern sensors sit on the **I²C bus**: just two wires, **SDA** (data) and **SCL** (clock). Each sensor has its own **address** (e.g. 0x76) – so lots of them share the same two wires.\n\nButtons **bounce**: when pressed, the contact flickers for a few milliseconds. **Debouncing** helps – wait briefly and read again.' },
+          { t: 'match', q: 'Wire → job', pairs: [['SDA', 'Data'], ['SCL', 'Clock'], ['GND', 'Ground']] },
+          { t: 'mc', q: 'How does the Arduino tell several sensors on the same I²C bus apart?', o: ['By their address', 'By wire color', 'By voltage', 'It can’t'], a: 0 },
+          { t: 'mc', q: 'A button sometimes triggers several times although you only press once. Why?', o: ['The contact bounces', 'The Arduino is too slow', 'The button is too big', 'Not enough current'], a: 0, ex: 'Fix: debounce, e.g. wait 20–50 ms and read again.' },
+          { t: 'mc', q: 'What does a PIR sensor report?', o: ['Movement of people or animals', 'Distance in cm', 'Brightness', 'Air pressure'], a: 0, ex: 'PIR = passive infrared. It detects moving heat radiation.' },
+          { t: 'tf', q: 'A DHT22 measures temperature and humidity.', a: true },
+          { t: 'fill', q: 'Measure the ultrasonic sensor’s echo time on pin 7.', code: 'long duration = ___(7, HIGH);', o: ['pulseIn', 'digitalRead', 'delay'], a: 0, ex: 'pulseIn measures how long a pin stays HIGH – in microseconds.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'Which two data lines does I²C use?', o: ['SDA and SCL', 'TX and RX', 'MOSI and MISO', 'A0 and A1'], a: 0 },
+      { t: 'num', q: 'An LM35 (10 mV/°C) outputs 0.18 V. What temperature?', a: 18, unit: '°C', ex: '180 mV / 10 = 18 °C' },
+      { t: 'tf', q: 'An NTC resistor gets smaller when it warms up.', a: true, ex: 'NTC = negative temperature coefficient.' },
+      { t: 'num', q: '`map(1023, 0, 1023, 0, 255)` gives …', a: 255, unit: '', tol: 0 },
+      { t: 'mc', q: 'What helps against button bounce?', o: ['Wait briefly and read again', 'Higher voltage', 'Longer wire', 'An LDR'], a: 0 },
+    ]
+  };
+
+  const ESP32 = {
+    id: 'e', title: 'ESP32 & Wi-Fi', sub: 'Bring projects online', color: '#c0c6cc', dark: '#7b838c',
+    lessons: [
+      {
+        id: 'e1l1', title: 'The ESP32', ex: [
+          { t: 'info', title: 'Arduino with Wi-Fi', text: 'The **ESP32** is a cheap microcontroller with built-in **Wi-Fi and Bluetooth** and two cores. You program it just like an Arduino in the Arduino IDE.\n\n**Careful:** it runs on **3.3 V**. Its pins are **not 5 V tolerant** – 5 V signals need a voltage divider or level shifter.\n\nOn the ESP32 `analogRead()` has **12 bits**: values from 0 to **4095**.' },
+          { t: 'mc', q: 'Which logic voltage does the ESP32 use?', o: ['3.3 V', '5 V', '12 V', '1.5 V'], a: 0 },
+          { t: 'tf', q: 'You can connect a sensor’s 5 V signal directly to an ESP32 pin.', a: false, ex: 'That can damage the pin. Use a voltage divider or level shifter.' },
+          { t: 'num', q: 'Voltage divider for 5 V → ESP32: R1 = 1 kΩ, R2 = 2 kΩ. What voltage reaches the pin?', a: 3.33, unit: 'V', tol: 0.02, ex: '5 V · 2 / (1 + 2) ≈ 3.33 V – fits.' },
+          { t: 'num', q: 'What is the maximum value of `analogRead()` on the ESP32 (12 bits)?', a: 4095, unit: '', tol: 0, ex: '2¹² = 4096 steps → 0 to 4095.' },
+          { t: 'match', q: 'Board → property', pairs: [['Arduino Uno', '5 V, no Wi-Fi'], ['ESP32', '3.3 V, Wi-Fi + Bluetooth']] },
+          { t: 'mc', q: 'What does the ESP32 have built in that the Arduino Uno lacks?', o: ['Wi-Fi and Bluetooth', 'A screen', 'A battery', 'A motor'], a: 0 },
+        ]
+      },
+      {
+        id: 'e1l2', title: 'Onto Wi-Fi & the internet', ex: [
+          { t: 'info', title: 'Your project online', text: '`WiFi.begin(ssid, password)` connects the ESP32 to your Wi-Fi. Once `WiFi.status() == WL_CONNECTED`, it has an **IP address**.\n\nThen it can run a small **web server**: open its IP in your phone’s browser and switch an LED.\n\nFor sensor data **MQTT** is popular: devices **publish** values under a **topic**, others **subscribe** to it. A **broker** distributes the messages.\n\nOn batteries **deep sleep** helps: the ESP32 sleeps and only wakes briefly to measure.', tip: 'Never upload your Wi-Fi password in public code on GitHub!' },
+          { t: 'fill', q: 'Connect the ESP32 to Wi-Fi.', code: 'void setup() {\n  ___(ssid, password);\n}', o: ['WiFi.begin', 'WiFi.status', 'Serial.begin'], a: 0 },
+          { t: 'fill', q: 'Wait until the connection is up.', code: 'while (WiFi.status() != ___) {\n  delay(500);\n}', o: ['WL_CONNECTED', 'HIGH', 'OUTPUT'], a: 0 },
+          { t: 'order', q: 'How to switch an LED on the ESP32 from your phone:', items: ['ESP32 connects to Wi-Fi', 'ESP32 starts a web server', 'You open its IP in the browser', 'You tap “LED on”'] },
+          { t: 'match', q: 'MQTT term → meaning', pairs: [['Publish', 'Send a value'], ['Subscribe', 'Follow a topic'], ['Topic', 'Channel'], ['Broker', 'Relay server']] },
+          { t: 'mc', q: 'How does an ESP32 sensor last for months on one battery?', o: ['Deep sleep between measurements', 'Wi-Fi always on', 'Higher voltage', 'It can’t'], a: 0 },
+          { t: 'tf', q: 'It’s a good idea to upload your Wi-Fi password to a public GitHub repo.', a: false, ex: 'Keep credentials in a separate file that isn’t uploaded.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'What does `WiFi.status()` return once the ESP32 is connected?', o: ['WL_CONNECTED', 'HIGH', 'true', 'OK'], a: 0 },
+      { t: 'num', q: 'On the ESP32 `analogRead()` returns 2048. Roughly what voltage? (3.3 V = 4095)', a: 1.65, unit: 'V', tol: 0.03, ex: '2048 / 4095 · 3.3 V ≈ 1.65 V' },
+      { t: 'mc', q: 'What does an MQTT broker do?', o: ['It distributes messages between devices', 'It measures temperature', 'It charges the battery', 'It replaces Wi-Fi'], a: 0 },
+      { t: 'tf', q: 'An ESP32 pin tolerates 5 V permanently.', a: false },
+      { t: 'mc', q: 'How do you reach your ESP32’s web server in the browser?', o: ['Via its IP address', 'Via its serial number', 'Via Bluetooth', 'You can’t'], a: 0 },
+    ]
+  };
+
+  UNITS_EN.forEach((u, i) => { u.id = 'u' + (i + 1); });
+  UNITS_EN.splice(UNITS_EN.findIndex(u => u.id === 'u3') + 1, 0, WORKSHOP);
+  UNITS_EN.splice(UNITS_EN.findIndex(u => u.id === 'u6') + 1, 0, SENSORS);
+  UNITS_EN.push(ESP32);
+})();

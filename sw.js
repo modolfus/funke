@@ -1,5 +1,5 @@
 // Offline cache. Bump VERSION on every app change so installed apps pick up the new version.
-const VERSION = 'funke-v5';
+const VERSION = 'funke-v6';
 // './' instead of 'index.html': some hosts redirect /index.html to /, and Safari rejects redirected responses from a service worker.
 const FILES = [
   './', 'styles.css', 'app.js', 'lessons.js', 'lessons.en.js', 'manifest.webmanifest',

@@ -317,3 +317,119 @@ const QUIZZES = [
   ],
 ];
 UNITS.forEach((u, i) => { u.quiz = QUIZZES[i]; });
+
+/* =========================================================
+   Additional chapters (inserted into the chapter order below).
+   Existing chapters get fixed ids (u1–u7) so saved progress stays valid.
+   ========================================================= */
+(() => {
+  const WERKSTATT = {
+    id: 'w', title: 'Werkstatt', sub: 'Multimeter & Löten', color: '#e0a458', dark: '#9a6a2c',
+    lessons: [
+      {
+        id: 'w1l1', title: 'Messen mit dem Multimeter', ex: [
+          { t: 'info', title: 'Dein wichtigstes Werkzeug', text: 'Mit dem **Multimeter** misst du Spannung, Strom und Widerstand.\n\n**V⎓** Gleichspannung (Batterie, Arduino) · **V~** Wechselspannung (Steckdose – Finger weg!) · **A** Strom · **Ω** Widerstand · **🔊** Durchgang (piept bei Verbindung).\n\n**Spannung** misst du **parallel** zum Bauteil. **Strom** misst du **in Reihe** – dafür den Kreis auftrennen und die rote Messleitung in die **A/mA-Buchse** stecken.', fig: { k: 'loop', parts: [{ k: 'meter', l: 'A', lab: 'Messgerät' }, { k: 'lamp', on: 1, side: 'r', lab: 'Lampe' }], U: '9 V', live: true }, tip: 'Widerstand und Durchgang nur messen, wenn die Schaltung stromlos ist.' },
+          { t: 'mc', q: 'Du willst die Spannung einer 9-V-Batterie messen. Welche Einstellung?', o: ['V⎓ (Gleichspannung)', 'V~ (Wechselspannung)', 'A (Strom)', 'Ω (Widerstand)'], a: 0, ex: 'Batterien liefern Gleichspannung.' },
+          { t: 'mc', q: 'Wie schließt du das Multimeter an, um den **Strom** zu messen?', o: ['In Reihe – Kreis auftrennen', 'Parallel zum Bauteil', 'Direkt an die Batteriepole', 'Das geht gar nicht'], a: 0, ex: 'Der Strom muss durch das Messgerät fließen. Im A-Modus direkt an die Batterie = Kurzschluss!' },
+          { t: 'tf', q: 'Widerstände kann man messen, während die Schaltung unter Strom steht.', a: false, ex: 'Fremde Spannung verfälscht die Messung und kann das Messgerät beschädigen.' },
+          { t: 'match', q: 'Symbol → Messung', pairs: [['V⎓', 'Gleichspannung'], ['V~', 'Wechselspannung'], ['Ω', 'Widerstand'], ['🔊', 'Durchgang']] },
+          { t: 'num', q: 'Am 150-Ω-Vorwiderstand misst du 3 V. Wie viel Strom fließt durch die LED?', a: 20, unit: 'mA', ex: 'I = 3 V / 150 Ω = 0,02 A = 20 mA – ganz ohne den Kreis aufzutrennen!' },
+          { t: 'mc', q: 'Wofür nutzt du den Durchgangsprüfer (Piepser)?', o: ['Prüfen, ob Kabel oder Lötstelle Verbindung haben', 'Batterien laden', 'Spannung erhöhen', 'Strom messen'], a: 0 },
+        ]
+      },
+      {
+        id: 'w1l2', title: 'Löten', ex: [
+          { t: 'info', title: 'Bauteile dauerhaft verbinden', text: 'Beim **Löten** verbindet geschmolzenes Lötzinn Bauteil und Platine – elektrisch und mechanisch.\n\n1. Lötspitze an **Pad und Bein gleichzeitig** halten (1–2 s erwärmen)\n2. **Lötzinn an die Lötstelle** führen, nicht an die Spitze\n3. Zinn wegnehmen, dann den Lötkolben\n4. Nicht wackeln, bis es erstarrt ist\n\nEine gute Lötstelle glänzt und sieht aus wie ein kleiner **Kegel**.', tip: 'Typisch sind 330–360 °C für bleifreies Lot. Gut lüften und danach Hände waschen!' },
+          { t: 'order', q: 'Bring die Schritte einer Lötstelle in die richtige Reihenfolge.', items: ['Pad und Bein mit der Spitze erhitzen', 'Lötzinn zuführen', 'Lötzinn wegnehmen', 'Lötkolben wegnehmen'] },
+          { t: 'mc', q: 'Wohin führst du das Lötzinn?', o: ['An Pad und Bauteilbein', 'Nur auf die Lötspitze', 'Auf die Platinenrückseite', 'Egal'], a: 0, ex: 'Die Lötstelle muss heiß genug sein, damit das Zinn fließt und gut verbindet.' },
+          { t: 'mc', q: 'Eine Lötstelle ist matt, krümelig und kugelig. Was ist das?', o: ['Eine kalte Lötstelle', 'Eine perfekte Lötstelle', 'Ein Kurzschluss', 'Flussmittel'], a: 0, ex: 'Zu wenig Hitze – nochmal erwärmen, evtl. etwas frisches Zinn dazu.' },
+          { t: 'match', q: 'Werkzeug → Zweck', pairs: [['Entlötlitze', 'Zinn absaugen'], ['Flussmittel', 'Zinn fließt besser'], ['Seitenschneider', 'Beine kürzen'], ['Dritte Hand', 'Platine halten']] },
+          { t: 'num', q: 'Bei welcher Temperatur lötet man bleifreies Lot ungefähr?', a: 340, unit: '°C', tol: 0.08, ex: 'Etwa 330–360 °C sind üblich.' },
+          { t: 'tf', q: 'Zwei benachbarte Pads, die versehentlich mit Zinn verbunden sind, können einen Kurzschluss verursachen.', a: true, ex: 'So eine „Lötbrücke“ entfernst du mit Entlötlitze.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'Mit welcher Multimeter-Einstellung prüfst du, ob ein Kabel gebrochen ist?', o: ['Durchgang 🔊', 'V~', 'A', 'V⎓'], a: 0 },
+      { t: 'tf', q: 'Für Strommessungen steckt die rote Messleitung in der A- oder mA-Buchse.', a: true },
+      { t: 'mc', q: 'Du misst im A-Modus direkt an den Polen einer Batterie. Was passiert?', o: ['Kurzschluss übers Messgerät – die Sicherung brennt durch', 'Du siehst die Spannung', 'Gar nichts', 'Die Batterie lädt'], a: 0 },
+      { t: 'mc', q: 'Woran erkennst du eine gute Lötstelle?', o: ['Glänzend und kegelförmig', 'Matt und kugelig', 'Schwarz verbrannt', 'Möglichst viel Zinn'], a: 0 },
+      { t: 'num', q: 'An einem 1-kΩ-Widerstand misst du 5 V. Welcher Strom fließt?', a: 5, unit: 'mA', ex: '5 V / 1000 Ω = 5 mA' },
+    ]
+  };
+
+  const SENSOREN = {
+    id: 's', title: 'Sensoren', sub: 'Analog, digital, I²C', color: '#7aa2ff', dark: '#4363c4',
+    lessons: [
+      {
+        id: 's1l1', title: 'Analoge Sensoren', ex: [
+          { t: 'info', title: 'Wenn sich ein Widerstand ändert', text: 'Viele Sensoren sind einfach **veränderliche Widerstände**: Ein **LDR** wird bei Licht kleiner, ein **NTC** bei Wärme, ein **Potentiometer** ändert sich beim Drehen.\n\nIm **Spannungsteiler** mit einem festen Widerstand wird daraus eine Spannung, die `analogRead()` misst (0–1023).\n\nMit `map(wert, 0, 1023, 0, 100)` rechnest du den Messwert z. B. in Prozent um.', fig: { k: 'div', R1: '10 kΩ', R2: 'LDR', Uin: '5 V', Uout: '?' } },
+          { t: 'match', q: 'Sensor → reagiert auf', pairs: [['LDR', 'Licht'], ['NTC', 'Temperatur'], ['Potentiometer', 'Drehen'], ['Mikrofon', 'Schall']] },
+          { t: 'tf', q: 'Ein LDR hat im Dunkeln einen größeren Widerstand als im Hellen.', a: true, ex: 'Dunkel = hoher Widerstand (oft mehrere 100 kΩ), hell = klein (wenige kΩ).' },
+          { t: 'num', q: 'Was liefert `map(512, 0, 1023, 0, 100)` ungefähr?', a: 50, unit: '', tol: 0.03, ex: '512 ist etwa die Hälfte von 1023 → ca. 50.' },
+          { t: 'num', q: 'Ein LM35 liefert 10 mV pro °C. Du misst 0,25 V. Wie warm ist es?', a: 25, unit: '°C', ex: '0,25 V = 250 mV → 250 / 10 = 25 °C' },
+          { t: 'fill', q: 'Lies den Lichtsensor an A0.', code: 'int licht = ___(A0);', o: ['analogRead', 'digitalRead', 'analogWrite'], a: 0 },
+          { t: 'mc', q: 'Wozu braucht ein LDR einen zweiten, festen Widerstand?', o: ['Damit ein Spannungsteiler entsteht, den der Arduino messen kann', 'Damit er heller leuchtet', 'Als Sicherung', 'Gar nicht'], a: 0 },
+        ]
+      },
+      {
+        id: 's1l2', title: 'Digitale Sensoren & I²C', ex: [
+          { t: 'info', title: 'Sensoren, die selbst rechnen', text: '**Digitale Sensoren** liefern fertige Werte: Ein **PIR-Bewegungsmelder** gibt HIGH bei Bewegung, ein **DHT22** liefert Temperatur und Luftfeuchte.\n\nViele moderne Sensoren hängen am **I²C-Bus**: nur zwei Leitungen, **SDA** (Daten) und **SCL** (Takt). Jeder Sensor hat eine eigene **Adresse** (z. B. 0x76) – so passen viele an dieselben zwei Leitungen.\n\nTaster **prellen**: Beim Drücken springt der Kontakt ein paar Millisekunden hin und her. Dagegen hilft **Entprellen** – kurz warten und nochmal lesen.' },
+          { t: 'match', q: 'Leitung → Aufgabe', pairs: [['SDA', 'Daten'], ['SCL', 'Takt'], ['GND', 'Masse']] },
+          { t: 'mc', q: 'Wie unterscheidet der Arduino mehrere Sensoren am selben I²C-Bus?', o: ['Über ihre Adresse', 'Über die Kabelfarbe', 'Über die Spannung', 'Gar nicht'], a: 0 },
+          { t: 'mc', q: 'Ein Taster löst manchmal mehrfach aus, obwohl du nur einmal drückst. Warum?', o: ['Der Kontakt prellt', 'Der Arduino ist zu langsam', 'Der Taster ist zu groß', 'Zu wenig Strom'], a: 0, ex: 'Lösung: entprellen, z. B. 20–50 ms warten und nochmal lesen.' },
+          { t: 'mc', q: 'Was meldet ein PIR-Sensor?', o: ['Bewegung von Menschen oder Tieren', 'Abstand in cm', 'Helligkeit', 'Luftdruck'], a: 0, ex: 'PIR = passiver Infrarotsensor. Er erkennt Wärmestrahlung, die sich bewegt.' },
+          { t: 'tf', q: 'Ein DHT22 misst Temperatur und Luftfeuchtigkeit.', a: true },
+          { t: 'fill', q: 'Miss die Echozeit des Ultraschallsensors an Pin 7.', code: 'long dauer = ___(7, HIGH);', o: ['pulseIn', 'digitalRead', 'delay'], a: 0, ex: 'pulseIn misst, wie lange ein Pin HIGH ist – in Mikrosekunden.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'Welche zwei Datenleitungen hat I²C?', o: ['SDA und SCL', 'TX und RX', 'MOSI und MISO', 'A0 und A1'], a: 0 },
+      { t: 'num', q: 'Ein LM35 (10 mV/°C) liefert 0,18 V. Welche Temperatur?', a: 18, unit: '°C', ex: '180 mV / 10 = 18 °C' },
+      { t: 'tf', q: 'Ein NTC-Widerstand wird bei Wärme kleiner.', a: true, ex: 'NTC = Negative Temperature Coefficient.' },
+      { t: 'num', q: '`map(1023, 0, 1023, 0, 255)` ergibt …', a: 255, unit: '', tol: 0 },
+      { t: 'mc', q: 'Was hilft gegen Tasterprellen?', o: ['Kurz warten und erneut lesen', 'Höhere Spannung', 'Längeres Kabel', 'Ein LDR'], a: 0 },
+    ]
+  };
+
+  const ESP32 = {
+    id: 'e', title: 'ESP32 & WLAN', sub: 'Projekte ins Netz bringen', color: '#c0c6cc', dark: '#7b838c',
+    lessons: [
+      {
+        id: 'e1l1', title: 'Der ESP32', ex: [
+          { t: 'info', title: 'Arduino mit WLAN', text: 'Der **ESP32** ist ein günstiger Mikrocontroller mit eingebautem **WLAN und Bluetooth** und zwei Rechenkernen. Du programmierst ihn ganz normal mit der Arduino-IDE.\n\n**Achtung:** Er arbeitet mit **3,3 V**. Seine Pins vertragen **keine 5 V** – 5-V-Signale brauchen einen Spannungsteiler oder Pegelwandler.\n\n`analogRead()` hat beim ESP32 **12 Bit**: Werte von 0 bis **4095**.' },
+          { t: 'mc', q: 'Mit welcher Logikspannung arbeitet der ESP32?', o: ['3,3 V', '5 V', '12 V', '1,5 V'], a: 0 },
+          { t: 'tf', q: 'Du kannst das 5-V-Signal eines Sensors direkt an einen ESP32-Pin anschließen.', a: false, ex: 'Das kann den Pin beschädigen. Nimm einen Spannungsteiler oder Pegelwandler.' },
+          { t: 'num', q: 'Spannungsteiler für 5 V → ESP32: R1 = 1 kΩ, R2 = 2 kΩ. Welche Spannung kommt am Pin an?', a: 3.33, unit: 'V', tol: 0.02, ex: '5 V · 2 / (1 + 2) ≈ 3,33 V – passt.' },
+          { t: 'num', q: 'Welchen Höchstwert liefert `analogRead()` beim ESP32 (12 Bit)?', a: 4095, unit: '', tol: 0, ex: '2¹² = 4096 Stufen → 0 bis 4095.' },
+          { t: 'match', q: 'Board → Eigenschaft', pairs: [['Arduino Uno', '5 V, kein WLAN'], ['ESP32', '3,3 V, WLAN + Bluetooth']] },
+          { t: 'mc', q: 'Was hat der ESP32 eingebaut, das der Arduino Uno nicht hat?', o: ['WLAN und Bluetooth', 'Einen Bildschirm', 'Einen Akku', 'Einen Motor'], a: 0 },
+        ]
+      },
+      {
+        id: 'e1l2', title: 'Ins WLAN & Internet', ex: [
+          { t: 'info', title: 'Dein Projekt online', text: 'Mit `WiFi.begin(ssid, passwort)` verbindet sich der ESP32 mit deinem WLAN. Ist `WiFi.status() == WL_CONNECTED`, hat er eine **IP-Adresse**.\n\nDann kann er z. B. einen kleinen **Webserver** starten: Du öffnest seine IP im Handy-Browser und schaltest eine LED.\n\nFür Sensordaten ist **MQTT** beliebt: Geräte **veröffentlichen** (publish) Werte unter einem **Thema** (topic), andere **abonnieren** (subscribe) es. Ein **Broker** verteilt die Nachrichten.\n\nIm Batteriebetrieb hilft **Deep Sleep**: Der ESP32 schläft und wacht nur kurz zum Messen auf.', tip: 'Lade dein WLAN-Passwort nie in öffentlichen Code auf GitHub hoch!' },
+          { t: 'fill', q: 'Verbinde den ESP32 mit dem WLAN.', code: 'void setup() {\n  ___(ssid, passwort);\n}', o: ['WiFi.begin', 'WiFi.status', 'Serial.begin'], a: 0 },
+          { t: 'fill', q: 'Warte, bis die Verbindung steht.', code: 'while (WiFi.status() != ___) {\n  delay(500);\n}', o: ['WL_CONNECTED', 'HIGH', 'OUTPUT'], a: 0 },
+          { t: 'order', q: 'So schaltest du per Handy eine LED am ESP32:', items: ['ESP32 verbindet sich mit dem WLAN', 'ESP32 startet einen Webserver', 'Du öffnest seine IP im Browser', 'Du tippst auf „LED an“'] },
+          { t: 'match', q: 'MQTT-Begriff → Bedeutung', pairs: [['Publish', 'Wert senden'], ['Subscribe', 'Thema abonnieren'], ['Topic', 'Thema / Kanal'], ['Broker', 'Vermittler-Server']] },
+          { t: 'mc', q: 'Wie hält ein ESP32-Sensor monatelang mit einer Batterie durch?', o: ['Mit Deep Sleep zwischen den Messungen', 'Mit dauerhaft eingeschaltetem WLAN', 'Mit höherer Spannung', 'Gar nicht'], a: 0 },
+          { t: 'tf', q: 'Es ist eine gute Idee, dein WLAN-Passwort in ein öffentliches GitHub-Repo hochzuladen.', a: false, ex: 'Leg Zugangsdaten in eine eigene Datei, die nicht hochgeladen wird.' },
+        ]
+      },
+    ],
+    quiz: [
+      { t: 'mc', q: 'Welchen Wert hat `WiFi.status()`, wenn der ESP32 verbunden ist?', o: ['WL_CONNECTED', 'HIGH', 'true', 'OK'], a: 0 },
+      { t: 'num', q: '`analogRead()` liefert beim ESP32 2048. Welche Spannung ungefähr? (3,3 V = 4095)', a: 1.65, unit: 'V', tol: 0.03, ex: '2048 / 4095 · 3,3 V ≈ 1,65 V' },
+      { t: 'mc', q: 'Was macht ein MQTT-Broker?', o: ['Er verteilt Nachrichten zwischen den Geräten', 'Er misst Temperatur', 'Er lädt den Akku', 'Er ersetzt das WLAN'], a: 0 },
+      { t: 'tf', q: 'Ein ESP32-Pin verträgt dauerhaft 5 V.', a: false },
+      { t: 'mc', q: 'Wie erreichst du den Webserver deines ESP32 im Browser?', o: ['Über seine IP-Adresse', 'Über die Seriennummer', 'Über Bluetooth', 'Gar nicht'], a: 0 },
+    ]
+  };
+
+  UNITS.forEach((u, i) => { u.id = 'u' + (i + 1); });
+  UNITS.splice(UNITS.findIndex(u => u.id === 'u3') + 1, 0, WERKSTATT); // after "Schaltungen"
+  UNITS.splice(UNITS.findIndex(u => u.id === 'u6') + 1, 0, SENSOREN);  // after "Mikrocontroller"
+  UNITS.push(ESP32);                                                    // final chapter
+})();

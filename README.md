@@ -6,7 +6,7 @@ It's a plain web app (PWA): no build step, no dependencies, works offline and ru
 **Live:** https://funke.maurice-hmnn.workers.dev/ (Cloudflare, deployed automatically on every push to `main`)
 
 ## Features
-- 7 chapters, 20 lessons + 7 chapter tests, 164 cards: electricity basics → components → circuits → semiconductors → digital logic → Arduino → robotics
+- 10 chapters, 26 lessons + 10 chapter tests, 221 cards: electricity basics → components → circuits → workshop (multimeter & soldering) → semiconductors → digital logic → Arduino → sensors → robotics → ESP32 & Wi-Fi
 - Exercise types: multiple choice, true/false, calculations, code gaps, matching pairs, ordering, resistor color-band picker, interactive switches / logic gates / H-bridge, simulations with a slider (LED resistor, voltage divider, PWM, PID tuning)
 - Chapter tests: 10 questions (5 test-only + 5 random from the chapter), pass with 8 correct, no second tries
 - XP, daily streak, daily goal, battery "lives" that recharge, mistake review, tools (Ohm's law, LED resistor, color code)

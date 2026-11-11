@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Funke</title>
+  <meta name="description" content="Elektronik, Mikrocontroller und Robotik lernen – in kleinen Lektionen.">
+  <meta name="theme-color" content="#171a21">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Funke">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app"></div>
+  <!-- iOS-Haptik-Trick: Umschalten eines switch-Checkbox löst in Safari 18+ ein Vibrieren aus -->
+  <label id="haptic" aria-hidden="true"><input type="checkbox" switch tabindex="-1"></label>
+  <script src="lessons.js"></script>
+  <script src="lessons.en.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
